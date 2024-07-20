@@ -39,8 +39,8 @@ public class Main {
 
         private String firstName;
         private String lastName;
-        private double money; // денежный счет человека
-        private Set<Product> products = new HashSet<>(); // купленные продукты
+        private double money;
+        private Set<Product> products = new HashSet<>();
 
         public Human(String firstName, String lastName, double money)
         {
@@ -71,7 +71,7 @@ public class Main {
 
     public static class Shop {
         private String name;
-        private double money; // денежный счет магазина
+        private double money;
         private Map<Product,Integer> products = new HashMap<Product, Integer>();
 
         public Shop(String name, double money)
@@ -89,14 +89,14 @@ public class Main {
         public void sellProduct(Product product, Human human) throws SellProductException {
             if (products.get(product) == 0)
                 throw new SellProductException((
-                        "Продукта с именем {0} нет в наличии"
+                        "РџСЂРѕРґСѓРєС‚Р° СЃ РёРјРµРЅРµРј {0} РЅРµС‚ РІ РЅР°Р»РёС‡РёРё"
                 ));
             if (human.money < product.price) {
-                throw new SellProductException(("Уважаемый {0} {1}, для покупки товара недостаточно средств"
+                throw new SellProductException(("РЈРІР°Р¶Р°РµРјС‹Р№ {0} {1}, РґР»СЏ РїРѕРєСѓРїРєРё С‚РѕРІР°СЂР° РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЃСЂРµРґСЃС‚РІ"
                 ));
             }
             money += product.price - calculateNds(product.price);
-            System.out.printf("%s, вы успешно совершили покупку! C уважением, %s", human.firstName, name);
+            System.out.printf("%s, РІС‹ СѓСЃРїРµС€РЅРѕ СЃРѕРІРµСЂС€РёР»Рё РїРѕРєСѓРїРєСѓ! C СѓРІР°Р¶РµРЅРёРµРј, %s", human.firstName, name);
         }
 
 
@@ -149,8 +149,8 @@ public class Main {
             inputs = sc.nextLine().split(" ");
             human = new Human(inputs[0], inputs[1], Double.parseDouble(inputs[2]));
             System.out.print("""     
-            1. Посмотреть список товаров
-            2. Выход
+            1. РџРѕСЃРјРѕС‚СЂРµС‚СЊ СЃРїРёСЃРѕРє С‚РѕРІР°СЂРѕРІ
+            2. Р’С‹С…РѕРґ
             """);
             input = sc.nextLine();
             if (input.equals("2")) return;
