@@ -1,5 +1,4 @@
 import java.text.MessageFormat;
-import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +8,7 @@ public class Main {
 
     public static class Product implements Comparable<Product> {
         private String productName;
+
         private double price;
 
         public int compareTo(Product product) {
@@ -26,12 +26,20 @@ public class Main {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Product product = (Product) o;
-            return Double.compare(price, product.price) == 0 && Objects.equals(productName, product.productName);
+            return Double.compare(price, product.getPrice()) == 0 && java.util.Objects.equals(productName, product.getProductName());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(productName, price);
+            return java.util.Objects.hash(productName, price);
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public String getProductName() {
+            return productName;
         }
     }
 
@@ -40,7 +48,7 @@ public class Main {
         private String firstName;
         private String lastName;
         private double money;
-        private Set<Product> products = new HashSet<>();
+        private java.util.Set<Product> products = new java.util.HashSet<>();
 
         public Human(String firstName, String lastName, double money)
         {
@@ -53,13 +61,26 @@ public class Main {
             try {
                 shop.sellProduct(product, this);
                 products.add(product);
-                money -= product.price;
+                money -= product.getPrice();
             }
             catch (SellProductException e)
             {
                 System.out.println(e.getMessage());
             }
         }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public double getMoney() {
+            return money;
+        }
+
 
     }
 
@@ -72,7 +93,7 @@ public class Main {
     public static class Shop {
         private String name;
         private double money;
-        private Map<Product,Integer> products = new HashMap<Product, Integer>();
+        private java.util.Map<Product,Integer> products = new java.util.HashMap<Product, Integer>();
 
         public Shop(String name, double money)
         {
@@ -80,7 +101,7 @@ public class Main {
             this.money = money;
         }
 
-        public void AddProduct(Product product, int amount)
+        public void addProduct(Product product, int amount)
         {
             products.put(product, amount);
         }
@@ -91,12 +112,12 @@ public class Main {
                 throw new SellProductException((
                         "Продукта с именем {0} нет в наличии"
                 ));
-            if (human.money < product.price) {
+            if (human.getMoney() < product.getPrice()) {
                 throw new SellProductException(("Уважаемый {0} {1}, для покупки товара недостаточно средств"
                 ));
             }
-            money += product.price - calculateNds(product.price);
-            System.out.printf("%s, вы успешно совершили покупку! C уважением, %s", human.firstName, name);
+            money += product.getPrice() - calculateNds(product.getPrice());
+            System.out.printf("%s, вы успешно совершили покупку! C уважением, %s", human.getFirstName(), name);
         }
 
 
@@ -105,13 +126,13 @@ public class Main {
         }
 
 
-        public List<Product> printAndGetAllProductsWithCount() {
+        public java.util.List<Product> printAndGetAllProductsWithCount() {
             int i = 1;
-            ArrayList<Product> list = new ArrayList<>();
+            java.util.ArrayList<Product> list = new java.util.ArrayList<>();
             for (var entry : products.entrySet())
             {
                 list.add(entry.getKey());
-                System.out.printf("%d. %s - %d - %.2f\n", i++, entry.getKey().productName, entry.getValue(), entry.getKey().price);
+                System.out.printf("%d. %s - %d - %.2f\n", i++, entry.getKey().getProductName(), entry.getValue(), entry.getKey().getPrice());
             }
             return list;
         }
@@ -133,7 +154,7 @@ public class Main {
         private Human human;
 
         public void start() {
-            Scanner sc = new Scanner(System.in);
+            java.util.Scanner sc = new java.util.Scanner(System.in);
             String input = sc.nextLine();
             String[] inputs = input.split(" ");
             int productNum = Integer.parseInt(sc.nextLine());
@@ -141,7 +162,7 @@ public class Main {
             for (int i = 0; i < productNum; i++)
             {
                 inputs = sc.nextLine().split(" ");
-                shop.AddProduct(
+                shop.addProduct(
                         new Product(inputs[0], Double.parseDouble(inputs[1])),
                         Integer.parseInt(inputs[2])
                 );
