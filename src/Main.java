@@ -1,4 +1,5 @@
 import java.text.MessageFormat;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,12 +27,12 @@ public class Main {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Product product = (Product) o;
-            return Double.compare(price, product.getPrice()) == 0 && java.util.Objects.equals(productName, product.getProductName());
+            return Double.compare(price, product.getPrice()) == 0 && Objects.equals(productName, product.getProductName());
         }
 
         @Override
         public int hashCode() {
-            return java.util.Objects.hash(productName, price);
+            return Objects.hash(productName, price);
         }
 
         public double getPrice() {
@@ -48,7 +49,7 @@ public class Main {
         private String firstName;
         private String lastName;
         private double money;
-        private java.util.Set<Product> products = new java.util.HashSet<>();
+        private Set<Product> products = new HashSet<>();
 
         public Human(String firstName, String lastName, double money)
         {
@@ -93,7 +94,7 @@ public class Main {
     public static class Shop {
         private String name;
         private double money;
-        private java.util.Map<Product,Integer> products = new java.util.HashMap<Product, Integer>();
+        private Map<Product,Integer> products = new HashMap<Product, Integer>();
 
         public Shop(String name, double money)
         {
@@ -110,14 +111,15 @@ public class Main {
         public void sellProduct(Product product, Human human) throws SellProductException {
             if (products.get(product) == 0)
                 throw new SellProductException((
-                        "Продукта с именем {0} нет в наличии"
+                       String.format("Продукта с именем %s нет в наличии", product.getProductName())
                 ));
             if (human.getMoney() < product.getPrice()) {
-                throw new SellProductException(("Уважаемый {0} {1}, для покупки товара недостаточно средств"
+                throw new SellProductException((
+                        String.format("Уважаемый %s %s, для покупки товара недостаточно средств\n", human.getFirstName(), human.getLastName())
                 ));
             }
             money += product.getPrice() - calculateNds(product.getPrice());
-            System.out.printf("%s, вы успешно совершили покупку! C уважением, %s", human.getFirstName(), name);
+            System.out.printf("%s, вы успешно совершили покупку! C уважением, %s\n", human.getFirstName(), name);
         }
 
 
@@ -126,13 +128,13 @@ public class Main {
         }
 
 
-        public java.util.List<Product> printAndGetAllProductsWithCount() {
+        public List<Product> printAndGetAllProductsWithCount() {
             int i = 1;
-            java.util.ArrayList<Product> list = new java.util.ArrayList<>();
+            ArrayList<Product> list = new ArrayList<>();
             for (var entry : products.entrySet())
             {
                 list.add(entry.getKey());
-                System.out.printf("%d. %s - %d - %.2f\n", i++, entry.getKey().getProductName(), entry.getValue(), entry.getKey().getPrice());
+                System.out.printf(String.format(Locale.US, "%d. %s - %d - %.2f\n", i++, entry.getKey().getProductName(), entry.getValue(), entry.getKey().getPrice()));
             }
             return list;
         }
@@ -154,7 +156,7 @@ public class Main {
         private Human human;
 
         public void start() {
-            java.util.Scanner sc = new java.util.Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             String input = sc.nextLine();
             String[] inputs = input.split(" ");
             int productNum = Integer.parseInt(sc.nextLine());
