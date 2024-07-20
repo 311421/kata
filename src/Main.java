@@ -12,7 +12,7 @@ public class Main {
         private double price;
 
         public int compareTo(Product product) {
-            return (int)Math.signum(price - product.price);
+            return (int)Math.signum(price - product.getPrice());
         }
 
         public Product(String productName, double price)
