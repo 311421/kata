@@ -115,7 +115,8 @@ public class Main {
                 ));
             if (human.getMoney() < product.getPrice()) {
                 throw new SellProductException((
-                        String.format("Уважаемый %s %s, для покупки товара недостаточно средств\n", human.getFirstName(), human.getLastName())
+                        String.format("Уважаемый %s %s, для покупки товара недостаточно средств\n",
+                                human.getFirstName(), human.getLastName())
                 ));
             }
             money += product.getPrice() - calculateNds(product.getPrice());
@@ -134,7 +135,8 @@ public class Main {
             for (var entry : products.entrySet())
             {
                 list.add(entry.getKey());
-                System.out.printf(String.format(Locale.US, "%d. %s - %d - %.2f\n", i++, entry.getKey().getProductName(), entry.getValue(), entry.getKey().getPrice()));
+                System.out.printf(String.format(Locale.US, "%d. %s - %d - %.2f\n",
+                        i++, entry.getKey().getProductName(), entry.getValue(), entry.getKey().getPrice()));
             }
             return list;
         }
@@ -171,10 +173,7 @@ public class Main {
             }
             inputs = sc.nextLine().split(" ");
             human = new Human(inputs[0], inputs[1], Double.parseDouble(inputs[2]));
-            System.out.print("""     
-            1. Посмотреть список товаров
-            2. Выход
-            """);
+            System.out.print("1. Посмотреть список товаров\n2. Выход\n");
             input = sc.nextLine();
             if (input.equals("2")) return;
             var products = shop.printAndGetAllProductsWithCount();
