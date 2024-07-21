@@ -159,26 +159,31 @@ public class Main {
 
         public void start() {
             Scanner sc = new Scanner(System.in);
-            String input = sc.nextLine();
-            String[] inputs = input.split(" ");
-            int productNum = Integer.parseInt(sc.nextLine());
+            String[] inputs = new String[3];
+            inputs[0] = sc.next();
+            inputs[1] = sc.next();
+            int productNum = Integer.parseInt(sc.next());
             shop = new Shop(inputs[0], Double.parseDouble(inputs[1]));
             for (int i = 0; i < productNum; i++)
             {
-                inputs = sc.nextLine().split(" ");
+                inputs[0] = sc.next();
+                inputs[1] = sc.next();
+                inputs[2] = sc.next();
                 shop.addProduct(
                         new Product(inputs[0], Double.parseDouble(inputs[1])),
                         Integer.parseInt(inputs[2])
                 );
             }
-            inputs = sc.nextLine().split(" ");
+            inputs[0] = sc.next();
+            inputs[1] = sc.next();
+            inputs[2] = sc.next();
             human = new Human(inputs[0], inputs[1], Double.parseDouble(inputs[2]));
             System.out.print("1. Посмотреть список товаров\n2. Выход\n");
-            input = sc.nextLine();
-            if (input.equals("2")) return;
+            inputs[0] = sc.next();
+            if (inputs[0].equals("2")) return;
             var products = shop.printAndGetAllProductsWithCount();
-            input = sc.nextLine();
-            human.buyProduct(products.get(Integer.parseInt(input) - 1), shop);
+            inputs[0] = sc.next();
+            human.buyProduct(products.get(Integer.parseInt(inputs[0]) - 1), shop);
         }
     }
 }
